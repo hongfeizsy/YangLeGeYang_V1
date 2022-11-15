@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4936306732727787607}
   - component: {fileID: 4936306732727787606}
-  - component: {fileID: 4936306732727787601}
+  - component: {fileID: 1646683134473596601}
   m_Layer: 5
-  m_Name: Square0
+  m_Name: CardSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4936306732727787601
+--- !u!114 &1646683134473596601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,3 +100,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32315002e53341848bf58a0858711364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spotNumber: 0
