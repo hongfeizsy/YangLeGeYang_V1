@@ -7,7 +7,6 @@ public class CardSpot : MonoBehaviour
     [SerializeField] int spotNumber;
     bool isOccupied = false;
 
-
     public int GetSpotNumber()
     {
         return spotNumber;
@@ -22,5 +21,11 @@ public class CardSpot : MonoBehaviour
     {
         if (targetSpotNumber == spotNumber) return gameObject;
         else return null;
+    }
+
+    public bool SpotOccupied
+    {
+        get { return isOccupied; }
+        set { isOccupied = value; }
     }
 }

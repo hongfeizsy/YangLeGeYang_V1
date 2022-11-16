@@ -14,7 +14,7 @@ public class Card : MonoBehaviour
         if (!pressingEnabled) { return; }
         pressingEnabled = false;
         CardSpot cardSpot = FindSpareSpot();
-
+        cardSpot.SpotOccupied = true;
         Vector2 destinationPos = cardSpot.transform.position;
         transform.DOMove(destinationPos, 1);
     }
