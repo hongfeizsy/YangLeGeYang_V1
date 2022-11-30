@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class CardSpot : MonoBehaviour
 {
+    [SerializeField] CardSpot neighberingSpotOnRight;
     [SerializeField] int spotNumber;
+    [SerializeField] CardType cardType;
+    [SerializeField] Card cardInSpot;
     bool isOccupied = false;
-
-    public int GetSpotNumber()
-    {
-        return spotNumber;
-    }
-
-    public bool GetOccupationStatus()
-    {
-        return isOccupied;
-    }
 
     public GameObject MatchTargetSpot(int targetSpotNumber)
     {
@@ -23,9 +16,32 @@ public class CardSpot : MonoBehaviour
         else return null;
     }
 
+    public int SpotNumber
+    {
+        get { return spotNumber; }
+        //set { spotNumber = value; }
+    }
+
     public bool SpotOccupied
     {
         get { return isOccupied; }
         set { isOccupied = value; }
+    }
+
+    public CardType CardTypeInSpot
+    {
+        get { return cardType; }
+        set { cardType = value; }
+    }
+
+    public Card CardInSpot
+    {
+        get { return cardInSpot; }
+        set { cardInSpot = value; }
+    }
+
+    public CardSpot GetNeigheringSpotOnRight()
+    {
+        return neighberingSpotOnRight;
     }
 }
