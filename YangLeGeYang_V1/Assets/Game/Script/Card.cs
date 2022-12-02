@@ -77,12 +77,13 @@ public class Card : MonoBehaviour
             }
             allSpotsInfo.Add(spotInfo);
         }
+        //print("Min empty spot number: " + minEmptySpotNumber.ToString());
 
         bool sameTypeExist = false;
         int spotNumberWithSameType = 0;
         foreach (Dictionary<string, int> spotInfo in allSpotsInfo)
         {
-            print(spotInfo["SpotNumber"].ToString() + ": " + spotInfo["CardType"].ToString());
+            //print(spotInfo["SpotNumber"].ToString() + ": " + spotInfo["CardType"].ToString());
             if (spotInfo["occupied"] == 1 & (int)cardType == spotInfo["CardType"])
             {
                 sameTypeExist = true;
@@ -104,32 +105,20 @@ public class Card : MonoBehaviour
         {
             //print("Same card exists.");
             destinationSpotNumber = spotNumberWithSameType + 1;
+            //print("destination: " + destinationSpotNumber.ToString());
+            //print("min empty spot number: " + minEmptySpotNumber.ToString());
             foreach (CardSpot cardSpot in allSpots)
             {
-                if (cardSpot.SpotNumber > destinationSpotNumber & cardSpot.SpotNumber < minEmptySpotNumber)
+                if (cardSpot.SpotOccupied & cardSpot.SpotNumber >= destinationSpotNumber & cardSpot.SpotNumber < minEmptySpotNumber)
                 {
-                    print(cardSpot.SpotNumber);
+                    //print(cardSpot.SpotNumber);  // problem here.
                     cardSpot.CardInSpot.transform.DOMove(cardSpot.GetNeigheringSpotOnRight().transform.position, 0.5f);
+                    cardSpot.GetNeigheringSpotOnRight().CardInSpot = cardSpot.CardInSpot;
+                    cardSpot.GetNeigheringSpotOnRight().CardTypeInSpot = cardSpot.CardInSpot.cardType;
+                    cardSpot.GetNeigheringSpotOnRight().SpotOccupied = true;
                 }
             }
         }
-
-        //if (destinationSpotNumber <= minEmptySpotNumber - 1)
-        //{
-        //    foreach (CardSpot cardSpot in allSpots)
-        //    {
-        //        if (cardSpot.SpotNumber > destinationSpotNumber & cardSpot.SpotNumber < minEmptySpotNumber)
-        //        {
-        //            cardSpot.CardInSpot.transform.DOMove(cardSpot.GetNeigheringSpotOnRight().transform.position, 0.5f);
-        //        }
-        //    }
-
-        //    //for (int i = destinationSpotNumber + 1; i < minEmptySpotNumber; i++)
-        //    //{
-
-        //    //}
-        //    //MoveCardsToRight();
-        //}
 
         foreach (CardSpot spot in allSpots)
         {
