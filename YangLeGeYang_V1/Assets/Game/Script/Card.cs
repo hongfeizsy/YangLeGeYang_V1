@@ -19,7 +19,6 @@ public class Card : MonoBehaviour
     {
         if (!pressingEnabled) { return; }
         pressingEnabled = false;
-        //cardSpot = FindSpareSpot();
         cardSpot = FindDestinationSpot();
         cardSpot.CardTypeInSpot = cardType;
         cardSpot.SpotOccupied = true;
@@ -38,7 +37,6 @@ public class Card : MonoBehaviour
             if (!spot.SpotOccupied & (minSpotNumber > spot.SpotNumber)) 
             {
                 minSpotNumber = spot.SpotNumber;
-                //spareSpotNumbers.Add(spot.GetSpotNumber()); 
             }
         }
 
@@ -48,9 +46,6 @@ public class Card : MonoBehaviour
         }
 
         return null;
-
-        //return Mathf.Min(spareSpotNumbers.ToArray());
-        //return minSpotNumber;
     }
 
     private CardSpot FindDestinationSpot()
@@ -77,13 +72,11 @@ public class Card : MonoBehaviour
             }
             allSpotsInfo.Add(spotInfo);
         }
-        //print("Min empty spot number: " + minEmptySpotNumber.ToString());
 
         bool sameTypeExist = false;
         int spotNumberWithSameType = 0;
         foreach (Dictionary<string, int> spotInfo in allSpotsInfo)
         {
-            //print(spotInfo["SpotNumber"].ToString() + ": " + spotInfo["CardType"].ToString());
             if (spotInfo["occupied"] == 1 & (int)cardType == spotInfo["CardType"])
             {
                 sameTypeExist = true;
@@ -94,30 +87,14 @@ public class Card : MonoBehaviour
             }
         }
 
-        //if (sameTypeExist) { destinationSpotNumber = spotNumberWithSameType + 1; }
-        //else { destinationSpotNumber = minEmptySpotNumber; }
-
         if (!sameTypeExist) 
         { 
             destinationSpotNumber = minEmptySpotNumber; 
         }
         else
         {
-            //print("Same card exists.");
             destinationSpotNumber = spotNumberWithSameType + 1;
-            //print("destination: " + destinationSpotNumber.ToString());
-            //print("min empty spot number: " + minEmptySpotNumber.ToString());
-            foreach (CardSpot cardSpot in allSpots)
-            {
-                if (cardSpot.SpotOccupied & cardSpot.SpotNumber >= destinationSpotNumber & cardSpot.SpotNumber < minEmptySpotNumber)
-                {
-                    //print(cardSpot.SpotNumber);  // problem here.
-                    cardSpot.CardInSpot.transform.DOMove(cardSpot.GetNeigheringSpotOnRight().transform.position, 0.5f);
-                    cardSpot.GetNeigheringSpotOnRight().CardInSpot = cardSpot.CardInSpot;
-                    cardSpot.GetNeigheringSpotOnRight().CardTypeInSpot = cardSpot.CardInSpot.cardType;
-                    cardSpot.GetNeigheringSpotOnRight().SpotOccupied = true;
-                }
-            }
+            MoveCardsToRight(allSpots, destinationSpotNumber, minEmptySpotNumber);
         }
 
         foreach (CardSpot spot in allSpots)
@@ -127,9 +104,18 @@ public class Card : MonoBehaviour
         return null;
     }
 
-    private void MoveCardsToRight()
+    private void MoveCardsToRight(CardSpot[] allSpots, int destinationSpotNumber, int minEmptySpotNumber)
     {
-        throw new NotImplementedException();
+        foreach (CardSpot cardSpot in allSpots)
+        {
+            if (cardSpot.SpotOccupied & cardSpot.SpotNumber >= destinationSpotNumber & cardSpot.SpotNumber < minEmptySpotNumber)
+            {
+                cardSpot.CardInSpot.transform.DOMove(cardSpot.GetNeigheringSpotOnRight().transform.position, 0.5f);
+                cardSpot.GetNeigheringSpotOnRight().CardInSpot = cardSpot.CardInSpot;
+                cardSpot.GetNeigheringSpotOnRight().CardTypeInSpot = cardSpot.CardInSpot.cardType;
+                cardSpot.GetNeigheringSpotOnRight().SpotOccupied = true;
+            }
+        }
     }
 
 }
