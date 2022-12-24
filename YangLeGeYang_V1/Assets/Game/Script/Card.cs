@@ -12,43 +12,38 @@ public enum CardType
 public class Card : MonoBehaviour
 {
     [SerializeField] CardType cardType;
-    CardSpot cardSpot;
+    CardSpot[] cardSpots;
     bool pressingEnabled = true;
+
+    private void Start() 
+    {
+        cardSpots = FindObjectsOfType<CardSpot>();
+    }
 
     private void OnMouseDown()
     {
         if (!pressingEnabled) { return; }
         pressingEnabled = false;
-        cardSpot = FindDestinationSpot();
-        cardSpot.CardTypeInSpot = cardType;
-        cardSpot.SpotOccupied = true;
-        cardSpot.CardInSpot = this;
-        Vector2 destinationPos = cardSpot.transform.position;
-        transform.DOMove(destinationPos, 1);
+        int spotNumberToMove = FindSpotNumber();
+        MoveToSpot(spotNumberToMove);
     }
 
-    private CardSpot FindSpareSpot()
+    private void MoveToSpot(int spotNumber)
     {
-        CardSpot[] allSpots = FindObjectsOfType<CardSpot>();
-        int minSpotNumber = 6;
-        List<int> spareSpotNumbers = new List<int>();
-        foreach (CardSpot spot in allSpots)
+        foreach (CardSpot cardSpot in cardSpots)
         {
-            if (!spot.SpotOccupied & (minSpotNumber > spot.SpotNumber)) 
+            if (spotNumber == cardSpot.SpotNumber)
             {
-                minSpotNumber = spot.SpotNumber;
+                transform.DOMove(cardSpot.transform.position, 1);
+                cardSpot.CardTypeInSpot = cardType;
+                cardSpot.SpotOccupied = true;
+                cardSpot.CardInSpot = this;
+                break;
             }
         }
-
-        foreach (CardSpot spot in allSpots)
-        {
-            if (minSpotNumber == spot.SpotNumber) return spot;
-        }
-
-        return null;
     }
 
-    private CardSpot FindDestinationSpot()
+    private int FindSpotNumber() 
     {
         int destinationSpotNumber = 6;
         int minEmptySpotNumber = 6;
@@ -57,7 +52,7 @@ public class Card : MonoBehaviour
         foreach (CardSpot spot in allSpots)
         {
             Dictionary<string, int> spotInfo = new Dictionary<string, int>();
-            if(spot.SpotOccupied) 
+            if (spot.SpotOccupied)
             {
                 spotInfo.Add("occupied", 1);
                 spotInfo.Add("CardType", (int)spot.CardTypeInSpot);
@@ -87,35 +82,35 @@ public class Card : MonoBehaviour
             }
         }
 
-        if (!sameTypeExist) 
-        { 
-            destinationSpotNumber = minEmptySpotNumber; 
+        if (!sameTypeExist)
+        {
+            destinationSpotNumber = minEmptySpotNumber;
         }
         else
         {
             destinationSpotNumber = spotNumberWithSameType + 1;
-            MoveCardsToRight(allSpots, destinationSpotNumber, minEmptySpotNumber);
-        }
-
-        foreach (CardSpot spot in allSpots)
-        {
-            if (destinationSpotNumber == spot.SpotNumber) return spot;
-        }
-        return null;
-    }
-
-    private void MoveCardsToRight(CardSpot[] allSpots, int destinationSpotNumber, int minEmptySpotNumber)
-    {
-        foreach (CardSpot cardSpot in allSpots)
-        {
-            if (cardSpot.SpotOccupied & cardSpot.SpotNumber >= destinationSpotNumber & cardSpot.SpotNumber < minEmptySpotNumber)
+            List<int> cardNrToMoveRight = new List<int>();
+            foreach (CardSpot spot in allSpots) 
             {
-                cardSpot.CardInSpot.transform.DOMove(cardSpot.GetNeigheringSpotOnRight().transform.position, 0.5f);
-                cardSpot.GetNeigheringSpotOnRight().CardInSpot = cardSpot.CardInSpot;
-                cardSpot.GetNeigheringSpotOnRight().CardTypeInSpot = cardSpot.CardInSpot.cardType;
-                cardSpot.GetNeigheringSpotOnRight().SpotOccupied = true;
+                if (spot.SpotOccupied && (spot.SpotNumber >= destinationSpotNumber))
+                {
+                    cardNrToMoveRight.Add(spot.SpotNumber);
+                }
+            }
+
+            cardNrToMoveRight.Reverse();
+            foreach (int spotNumber in cardNrToMoveRight) 
+            {
+                foreach (CardSpot cardSpot in allSpots)
+                {
+                    if (spotNumber == cardSpot.SpotNumber) 
+                    {
+                        cardSpot.CardInSpot.MoveToSpot(spotNumber + 1);
+                    }
+                }
             }
         }
-    }
 
+        return destinationSpotNumber;
+    }
 }

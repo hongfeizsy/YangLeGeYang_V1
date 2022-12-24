@@ -19,7 +19,6 @@ public class CardSpot : MonoBehaviour
     public int SpotNumber
     {
         get { return spotNumber; }
-        //set { spotNumber = value; }
     }
 
     public bool SpotOccupied
@@ -38,10 +37,5 @@ public class CardSpot : MonoBehaviour
     {
         get { return cardInSpot; }
         set { cardInSpot = value; }
-    }
-
-    public CardSpot GetNeigheringSpotOnRight()
-    {
-        return neighberingSpotOnRight;
     }
 }
