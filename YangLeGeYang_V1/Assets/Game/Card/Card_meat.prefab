@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 651144536983500128}
   - component: {fileID: 651144536983500129}
   m_Layer: 0
-  m_Name: Carrot
+  m_Name: Meat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
