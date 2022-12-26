@@ -40,5 +40,6 @@ public class CardSpot : MonoBehaviour
 
     public void DestroyCardInSpot() {
         Destroy(cardInSpot.gameObject);
+        cardInSpot = null;
     }
 }

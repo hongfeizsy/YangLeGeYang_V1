@@ -14,6 +14,7 @@ public class Card : MonoBehaviour
     [SerializeField] CardType cardType;
     CardSpot[] cardSpots;
     bool pressingEnabled = true;
+    bool isTouchable = false;
 
     private void Start() 
     {
@@ -157,5 +158,10 @@ public class Card : MonoBehaviour
                 cardSpot.DestroyCardInSpot();
             }
         }
+    }
+
+    public bool IsTouchable {
+        get { return isTouchable; }
+        set { isTouchable = value; }
     }
 }
