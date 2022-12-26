@@ -28,28 +28,12 @@ public class Card : MonoBehaviour
         MoveToSpot(spotNumberToMove);
     }
 
-    private void MoveToSpot(int spotNumber)
-    {
-        foreach (CardSpot cardSpot in cardSpots)
-        {
-            if (spotNumber == cardSpot.SpotNumber)
-            {
-                transform.DOMove(cardSpot.transform.position, 1);
-                cardSpot.CardTypeInSpot = cardType;
-                cardSpot.SpotOccupied = true;
-                cardSpot.CardInSpot = this;
-                break;
-            }
-        }
-    }
-
     private int FindSpotNumber() 
     {
         int destinationSpotNumber = 6;
         int minEmptySpotNumber = 6;
-        CardSpot[] allSpots = FindObjectsOfType<CardSpot>();
         List<Dictionary<string, int>> allSpotsInfo = new List<Dictionary<string, int>>();
-        foreach (CardSpot spot in allSpots)
+        foreach (CardSpot spot in cardSpots)
         {
             Dictionary<string, int> spotInfo = new Dictionary<string, int>();
             if (spot.SpotOccupied)
@@ -89,28 +73,50 @@ public class Card : MonoBehaviour
         else
         {
             destinationSpotNumber = spotNumberWithSameType + 1;
-            List<int> cardNrToMoveRight = new List<int>();
-            foreach (CardSpot spot in allSpots) 
-            {
-                if (spot.SpotOccupied && (spot.SpotNumber >= destinationSpotNumber))
-                {
-                    cardNrToMoveRight.Add(spot.SpotNumber);
-                }
-            }
+            MoveCardsToRight(destinationSpotNumber);
+        }
 
-            cardNrToMoveRight.Reverse();
-            foreach (int spotNumber in cardNrToMoveRight) 
+        return destinationSpotNumber;
+    }
+
+    private void MoveCardsToRight(int destinationSpotNumber) 
+    {
+        List<int> cardNrToMoveRight = new List<int>();
+        foreach (CardSpot spot in cardSpots)
+        {
+            if (spot.SpotOccupied && (spot.SpotNumber >= destinationSpotNumber))
             {
-                foreach (CardSpot cardSpot in allSpots)
+                cardNrToMoveRight.Add(spot.SpotNumber);
+            }
+        }
+
+        cardNrToMoveRight.Sort((x, y) => y.CompareTo(x));  // Or cardNrToMoveRight.Sort(); cardNrToMoveRight.Reverse();
+        foreach (int spotNumber in cardNrToMoveRight)
+        {
+            foreach (CardSpot cardSpot in cardSpots)
+            {
+                if (spotNumber == cardSpot.SpotNumber)
                 {
-                    if (spotNumber == cardSpot.SpotNumber) 
-                    {
-                        cardSpot.CardInSpot.MoveToSpot(spotNumber + 1);
-                    }
+                    cardSpot.CardInSpot.MoveToSpot(spotNumber + 1);
+                    break;
                 }
             }
         }
 
-        return destinationSpotNumber;
+    }
+
+    private void MoveToSpot(int spotNumber)
+    {
+        foreach (CardSpot cardSpot in cardSpots)
+        {
+            if (spotNumber == cardSpot.SpotNumber)
+            {
+                transform.DOMove(cardSpot.transform.position, 1);
+                cardSpot.CardTypeInSpot = cardType;
+                cardSpot.SpotOccupied = true;
+                cardSpot.CardInSpot = this;
+                break;
+            }
+        }
     }
 }

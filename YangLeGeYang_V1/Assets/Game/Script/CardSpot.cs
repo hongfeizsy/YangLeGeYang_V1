@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CardSpot : MonoBehaviour
 {
-    [SerializeField] CardSpot neighberingSpotOnRight;
     [SerializeField] int spotNumber;
     [SerializeField] CardType cardType;
     [SerializeField] Card cardInSpot;
@@ -27,7 +26,7 @@ public class CardSpot : MonoBehaviour
         set { isOccupied = value; }
     }
 
-    public CardType CardTypeInSpot
+    public CardType CardTypeInSpot   // I think this is unnecessary, and should be deleted later.
     {
         get { return cardType; }
         set { cardType = value; }
