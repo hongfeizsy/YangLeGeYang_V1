@@ -26,7 +26,6 @@ public class Card : MonoBehaviour
         if (!pressingEnabled) { return; }
         pressingEnabled = false;
         int spotNumberToMove = FindSpotNumber();
-        // MoveToSpot(spotNumberToMove);
 
         if (IsThreeTiles(spotNumberToMove)) 
         {
@@ -162,6 +161,10 @@ public class Card : MonoBehaviour
 
     public bool IsTouchable {
         get { return isTouchable; }
-        set { isTouchable = value; }
+        set 
+        {
+            isTouchable = value;
+            GetComponent<BoxCollider2D>().enabled = value;
+        }
     }
 }
