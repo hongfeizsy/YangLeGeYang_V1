@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CardSpawner : MonoBehaviour
 {
+    [SerializeField] Card[] CardPrefabs;
+    [SerializeField] int temp;
+    
     // Start is called before the first frame update
     void Start()
     {
