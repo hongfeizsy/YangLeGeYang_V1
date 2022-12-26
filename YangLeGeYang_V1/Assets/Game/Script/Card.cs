@@ -25,7 +25,15 @@ public class Card : MonoBehaviour
         if (!pressingEnabled) { return; }
         pressingEnabled = false;
         int spotNumberToMove = FindSpotNumber();
-        MoveToSpot(spotNumberToMove);
+        // MoveToSpot(spotNumberToMove);
+
+        if (IsThreeTiles(spotNumberToMove)) 
+        {
+            KillThreeTiles(spotNumberToMove);
+            // Sequence mySeq = DOTween.Sequence();
+            // mySeq.Append().Append();
+        }
+        else { MoveToSpot(spotNumberToMove); }
     }
 
     private int FindSpotNumber() 
@@ -61,7 +69,8 @@ public class Card : MonoBehaviour
         return destinationSpotNumber;
     }
 
-    private int FindMinEmptySpotNumber(List<Dictionary<string, int>> allSpotsInfo) {
+    private int FindMinEmptySpotNumber(List<Dictionary<string, int>> allSpotsInfo) 
+    {
         int minEmptySpotNumber = 6;
         
         foreach (CardSpot spot in cardSpots)
@@ -109,7 +118,6 @@ public class Card : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void MoveToSpot(int spotNumber)
@@ -123,6 +131,30 @@ public class Card : MonoBehaviour
                 cardSpot.SpotOccupied = true;
                 cardSpot.CardInSpot = this;
                 break;
+            }
+        }
+    }
+
+    private bool IsThreeTiles(int spotNumber) 
+    {
+        int sameTypeCount = 0;
+        foreach (CardSpot cardSpot in cardSpots) 
+        {
+            if ((spotNumber - 1) == cardSpot.SpotNumber || (spotNumber - 2) == cardSpot.SpotNumber) 
+            {
+                if(cardSpot.CardTypeInSpot == cardType) { sameTypeCount++; }
+            }
+        }
+        
+        if (sameTypeCount == 2) { return true; }
+        return false;
+    }
+
+    private void KillThreeTiles(int spotNumber) 
+    {
+        foreach (CardSpot cardSpot in cardSpots) {
+            if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber < spotNumber)) {
+                cardSpot.DestroyCardInSpot();
             }
         }
     }

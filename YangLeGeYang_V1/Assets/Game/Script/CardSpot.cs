@@ -37,4 +37,8 @@ public class CardSpot : MonoBehaviour
         get { return cardInSpot; }
         set { cardInSpot = value; }
     }
+
+    public void DestroyCardInSpot() {
+        Destroy(cardInSpot.gameObject);
+    }
 }
