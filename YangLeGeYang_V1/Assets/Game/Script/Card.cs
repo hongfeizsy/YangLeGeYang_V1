@@ -31,26 +31,8 @@ public class Card : MonoBehaviour
     private int FindSpotNumber() 
     {
         int destinationSpotNumber = 6;
-        int minEmptySpotNumber = 6;
         List<Dictionary<string, int>> allSpotsInfo = new List<Dictionary<string, int>>();
-        foreach (CardSpot spot in cardSpots)
-        {
-            Dictionary<string, int> spotInfo = new Dictionary<string, int>();
-            if (spot.SpotOccupied)
-            {
-                spotInfo.Add("occupied", 1);
-                spotInfo.Add("CardType", (int)spot.CardTypeInSpot);
-                spotInfo.Add("SpotNumber", spot.SpotNumber);
-            }
-            else
-            {
-                spotInfo.Add("occupied", 0);
-                spotInfo.Add("CardType", 0);
-                spotInfo.Add("SpotNumber", spot.SpotNumber);
-                if (spot.SpotNumber < minEmptySpotNumber) { minEmptySpotNumber = spot.SpotNumber; }
-            }
-            allSpotsInfo.Add(spotInfo);
-        }
+        int minEmptySpotNumber = FindMinEmptySpotNumber(allSpotsInfo);
 
         bool sameTypeExist = false;
         int spotNumberWithSameType = 0;
@@ -77,6 +59,31 @@ public class Card : MonoBehaviour
         }
 
         return destinationSpotNumber;
+    }
+
+    private int FindMinEmptySpotNumber(List<Dictionary<string, int>> allSpotsInfo) {
+        int minEmptySpotNumber = 6;
+        
+        foreach (CardSpot spot in cardSpots)
+        {
+            Dictionary<string, int> spotInfo = new Dictionary<string, int>();
+            if (spot.SpotOccupied)
+            {
+                spotInfo.Add("occupied", 1);
+                spotInfo.Add("CardType", (int)spot.CardTypeInSpot);
+                spotInfo.Add("SpotNumber", spot.SpotNumber);
+            }
+            else
+            {
+                spotInfo.Add("occupied", 0);
+                spotInfo.Add("CardType", 0);
+                spotInfo.Add("SpotNumber", spot.SpotNumber);
+                if (spot.SpotNumber < minEmptySpotNumber) { minEmptySpotNumber = spot.SpotNumber; }
+            }
+            allSpotsInfo.Add(spotInfo);
+        }
+
+        return minEmptySpotNumber;
     }
 
     private void MoveCardsToRight(int destinationSpotNumber) 
