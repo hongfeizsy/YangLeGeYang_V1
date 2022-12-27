@@ -16,6 +16,7 @@ public class Card : MonoBehaviour
     bool pressingEnabled = true;
     bool isTouchable = false;
     CardSpawner spawner;
+    IEnumerator coroutine;
 
     private void Start() 
     {
@@ -33,9 +34,9 @@ public class Card : MonoBehaviour
 
         if (IsThreeTiles(spotNumberToMove)) 
         {
-            KillThreeTiles(spotNumberToMove);
-            // Sequence mySeq = DOTween.Sequence();
-            // mySeq.Append().Append();
+            float waitTime = 1f;
+            MoveToSpot(spotNumberToMove);
+            StartCoroutine(WaitAndKillThreeTiles(waitTime, spotNumberToMove));
         }
         else { MoveToSpot(spotNumberToMove); }
     }
@@ -157,7 +158,7 @@ public class Card : MonoBehaviour
     private void KillThreeTiles(int spotNumber) 
     {
         foreach (CardSpot cardSpot in cardSpots) {
-            if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber < spotNumber)) {
+            if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber <= spotNumber)) {
                 cardSpot.DestroyCardInSpot();
             }
         }
@@ -172,6 +173,15 @@ public class Card : MonoBehaviour
             if (value) { alpha = 1; }
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
+        }
+    }
+
+    private IEnumerator WaitAndKillThreeTiles(float waitTime, int spotNumber) 
+    {
+        while (true) 
+        {
+            yield return new WaitForSeconds(waitTime);
+            KillThreeTiles(spotNumber);
         }
     }
 }

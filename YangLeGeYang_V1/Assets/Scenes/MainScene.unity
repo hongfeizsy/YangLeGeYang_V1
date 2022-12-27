@@ -317,7 +317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868643862508203539, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
@@ -404,7 +404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868643862508203539, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
@@ -917,7 +917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868643862508203539, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
@@ -1100,7 +1100,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868643862508203539, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
@@ -1323,7 +1323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868643862508203539, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
@@ -1846,7 +1846,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2868643862508203537, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
       propertyPath: LayerNumber
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2868643862508203538, guid: 5fffe4933cefb844dad154f646ffeac0, type: 3}
       propertyPath: m_RootOrder
