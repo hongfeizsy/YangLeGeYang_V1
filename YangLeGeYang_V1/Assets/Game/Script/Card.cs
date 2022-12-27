@@ -15,17 +15,21 @@ public class Card : MonoBehaviour
     CardSpot[] cardSpots;
     bool pressingEnabled = true;
     bool isTouchable = false;
+    CardSpawner spawner;
 
     private void Start() 
     {
         cardSpots = FindObjectsOfType<CardSpot>();
+        spawner = transform.parent.GetComponent<CardSpawner>();
     }
 
     private void OnMouseDown()
     {
-        if (!pressingEnabled) { return; }
+        if (!pressingEnabled) { return; }     // Can't be isTouchable, as the renderer can't be blur.
         pressingEnabled = false;
         int spotNumberToMove = FindSpotNumber();
+        transform.parent = null;
+        spawner.EnableCardInQueue();
 
         if (IsThreeTiles(spotNumberToMove)) 
         {
