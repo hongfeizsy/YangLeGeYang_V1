@@ -13,15 +13,16 @@ public class CardSpawner : MonoBehaviour
         numberOfCardTypes = CardPrefabs.Length;
         int cardIndex = 0;
         float shiftInYAxis = 0.05f;
+        float shiftInZAxis = 0.01f;
         for (int i = 0; i < LayerNumber; i++) {
             cardIndex = Random.Range(0, numberOfCardTypes);
-            SpawnCard(cardIndex, i, shiftInYAxis * i);
+            SpawnCard(cardIndex, i, shiftInYAxis * i, shiftInZAxis * i);
         }
     }
 
-    private void SpawnCard(int cardIndex, int layer, float shiftInYAxis) {
+    private void SpawnCard(int cardIndex, int layer, float shiftInYAxis, float shiftInZAxis) {
         // Instantiate(CardPrefabs[cardIndex], transform);
-        Card cardObject = Instantiate(CardPrefabs[cardIndex], transform.position - new Vector3(0, shiftInYAxis), transform.rotation);
+        Card cardObject = Instantiate(CardPrefabs[cardIndex], transform.position - new Vector3(0, shiftInYAxis, shiftInZAxis), transform.rotation);
         cardObject.gameObject.transform.parent = this.transform;
         if (layer == LayerNumber - 1) {cardObject.IsTouchable = true; }
         else { cardObject.IsTouchable = false; }

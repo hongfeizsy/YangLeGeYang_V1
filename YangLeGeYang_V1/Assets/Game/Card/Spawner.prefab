@@ -46,4 +46,4 @@ MonoBehaviour:
   CardPrefabs:
   - {fileID: 651144536811130986, guid: 1ef794898ecd710468cce5d87b43b909, type: 3}
   - {fileID: 651144536811130986, guid: a0a9c27ebc006aa419e1c13255858c73, type: 3}
-  LayerNumber: 2
+  LayerNumber: 3
