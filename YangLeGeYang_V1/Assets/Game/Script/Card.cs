@@ -161,6 +161,7 @@ public class Card : MonoBehaviour
         foreach (CardSpot cardSpot in cardSpots) {
             if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber <= spotNumber)) {
                 cardSpot.DestroyCardInSpot();
+                cardSpot.SpotOccupied = false;
             }
         }
     }
