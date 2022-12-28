@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
+using System.Linq;
 
 public enum CardType
 {
@@ -182,6 +183,21 @@ public class Card : MonoBehaviour
         {
             yield return new WaitForSeconds(waitTime);
             KillThreeTiles(spotNumber);
+            MoveCardsToLeft(spotNumber);
+        }
+    }
+
+    private void MoveCardsToLeft(int spotNumber) 
+    {
+        int[] spotNumberArray = Enumerable.Range(spotNumber + 1, spotNumber + 4).ToArray();
+        foreach (CardSpot spot in cardSpots) 
+        {
+            if (spotNumberArray.Contains(spot.SpotNumber) && spot.SpotOccupied) {
+                spot.CardInSpot.MoveToSpot(spot.SpotNumber - 3);
+                spot.SpotOccupied = false;
+                spot.CardInSpot = null;
+                spot.CardTypeInSpot = CardType.Null;
+            }
         }
     }
 }
