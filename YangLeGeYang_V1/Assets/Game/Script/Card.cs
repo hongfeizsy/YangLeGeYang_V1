@@ -18,6 +18,7 @@ public class Card : MonoBehaviour
     bool isTouchable = false;
     CardSpawner spawner;
     IEnumerator coroutine;
+    Vector3 coordidate;
 
     private void Start() 
     {
@@ -200,5 +201,10 @@ public class Card : MonoBehaviour
                 spot.CardTypeInSpot = CardType.Null;
             }
         }
+    }
+
+    public Vector3 Coordidate {
+        get { return coordidate; }
+        set { coordidate = value; }
     }
 }
