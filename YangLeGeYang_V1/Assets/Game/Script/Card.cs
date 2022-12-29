@@ -14,7 +14,7 @@ public class Card : MonoBehaviour
 {
     [SerializeField] CardType cardType;
     CardSpot[] cardSpots;
-    bool pressingEnabled = true;
+    bool isInBox = false;
     bool isTouchable = false;
     CardSpawner spawner;
     IEnumerator coroutine;
@@ -28,8 +28,8 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!pressingEnabled) { return; }     // Can't be isTouchable, as the renderer can't be blur.
-        pressingEnabled = false;
+        if (isInBox) { return; }     // Can't be isTouchable, as the renderer can't be blur.
+        isInBox = true;
         int spotNumberToMove = FindSpotNumber();
         transform.parent = null;
         // spawner.EnableCardInQueue();
