@@ -31,7 +31,7 @@ public class Card : MonoBehaviour
         pressingEnabled = false;
         int spotNumberToMove = FindSpotNumber();
         transform.parent = null;
-        spawner.EnableCardInQueue();
+        // spawner.EnableCardInQueue();
 
         if (IsThreeTiles(spotNumberToMove)) 
         {

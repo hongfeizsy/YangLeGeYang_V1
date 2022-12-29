@@ -28,9 +28,9 @@ public class CardSpawner : MonoBehaviour
         else { cardObject.IsTouchable = false; }
     }
 
-    public void EnableCardInQueue() {
-        if (transform.childCount >= 1) {
-            transform.GetChild(transform.childCount - 1).GetComponent<Card>().IsTouchable = true;
-        }
-    }
+    // public void EnableCardInQueue() {
+    //     if (transform.childCount >= 1) {
+    //         transform.GetChild(transform.childCount - 1).GetComponent<Card>().IsTouchable = true;
+    //     }
+    // }
 }
