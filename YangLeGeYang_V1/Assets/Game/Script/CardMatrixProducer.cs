@@ -19,7 +19,7 @@ public class CardMatrixProducer : MonoBehaviour
         cardHeight = CardPrefabs[0].GetComponent<BoxCollider2D>().size[1];
         float cardScalingFactor = CardPrefabs[0].gameObject.transform.localScale[0];
 
-        row = 7;
+        row = 2;
         column = 5;
         float shiftInZAxis = 0.01f;
         System.Random rnd = new System.Random(123);
@@ -29,14 +29,21 @@ public class CardMatrixProducer : MonoBehaviour
             {
                 for (int i = 0; i < column; i++) 
                 {
-                    if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 70) 
+                    if (k % 2 == j % 2 && k % 2 == i % 2) 
                     {
-                        var cardObject = Instantiate(CardPrefabs[k], 
-                            new Vector3(((float)i - column / 2) * (cardWidth / 2) * cardScalingFactor, ((float)j - row / 2) * (cardHeight / 2) * cardScalingFactor, 
-                                - shiftInZAxis * k), Quaternion.identity, gameObject.transform);
-                        coordinate = new Vector3(i, j, k);
-                        cardObject.GetComponent<Card>().Coordidate = coordinate;
+                        var cardObject = Instantiate(CardPrefabs[k],
+                            new Vector3(((float)i - column / 2) * (cardWidth / 2) * cardScalingFactor, ((float)j - row / 2) * (cardHeight / 2) * cardScalingFactor,
+                                -shiftInZAxis * k), Quaternion.identity, gameObject.transform);
                     }
+                    
+                    // if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 70) 
+                    // {
+                        // var cardObject = Instantiate(CardPrefabs[k], 
+                        //     new Vector3(((float)i - column / 2) * (cardWidth / 2) * cardScalingFactor, ((float)j - row / 2) * (cardHeight / 2) * cardScalingFactor, 
+                        //         - shiftInZAxis * k), Quaternion.identity, gameObject.transform);
+                    //     coordinate = new Vector3(i, j, k);
+                    //     cardObject.GetComponent<Card>().Coordidate = coordinate;
+                    // }
                 }
             }
         }
