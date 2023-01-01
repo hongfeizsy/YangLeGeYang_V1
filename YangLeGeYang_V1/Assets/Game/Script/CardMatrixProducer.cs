@@ -13,6 +13,7 @@ public class CardMatrixProducer : MonoBehaviour
     float cardWidth, cardHeight;
     List<int> CardIndex = new List<int>();
     List<Vector3> CoordidateList = new List<Vector3>();
+    List<List<Vector3>> cardRelation = new List<List<Vector3>>();
 
     void Start()
     {
@@ -55,8 +56,7 @@ public class CardMatrixProducer : MonoBehaviour
             }
         }
         CardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
-
-        IdentifyCardLevels(row, column, layer);
+        cardRelation = IdentifyCardLevels(layer);
     }
 
     private bool CreateFillingCondition(int layer, int col, int row) 
@@ -68,36 +68,39 @@ public class CardMatrixProducer : MonoBehaviour
         return false;
     }
 
-    private void IdentifyCardLevels(int row, int col, int layer) 
+    private List<List<Vector3>> IdentifyCardLevels(int layer) 
     {
-        int _row = 0, _col = 0, _layer = 0;
-        List<List<int>> levels = new List<List<int>>(); 
+        int x = 0, y = 0, z = 0;
+        int _x = 0, _y = 0, _z = 0;
+        List<List<Vector3>> cardRelation = new List<List<Vector3>>();
+        int cardCounter = 0; 
         foreach (Vector3 coordinate in CoordidateList)
         {
-            print(coordinate);
-            if (coordinate.z == layer - 1) { levels.Add(new List<int>()); }
+            cardRelation.Add(new List<Vector3>());
+            if (coordinate.z == layer - 1) { continue; }
             else 
             {
-                _row = (int)coordinate.x;
-                _col = (int)coordinate.y;
-                _layer = (int)coordinate.z;
-
-                for (int k = _layer; k < layer; k++) 
+                foreach (Vector3 _coordinate in CoordidateList) 
                 {
-                    for (int j = _col - 1; j < _col + 2; j++)
-                    {
-                        for (int i = _row - 1; i < _row + 2; i++)
-                        {
-                            
-                        }
+                    x = (int)coordinate.x;
+                    y = (int)coordinate.y;
+                    z = (int)coordinate.z;
+                    _x = (int)_coordinate.x;
+                    _y = (int)_coordinate.y;
+                    _z = (int)_coordinate.z;
+                    
+                    if ((z < _z) && (x <= _x + 1 && x >= _x - 1) && (y <= _y + 1 && y >= _y - 1)) {
+                        cardRelation[cardCounter].Add(new Vector3(_x, _y, _z));
                     }
                 }
-
-
-
-
+                cardCounter++;
             }
         }
+        return cardRelation;
+    }
 
+    private void SetCardTouchability() 
+    {
+        
     }
 }
