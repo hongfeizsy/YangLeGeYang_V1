@@ -26,7 +26,7 @@ public class CardMatrixProducer : MonoBehaviour
         column = 5;
         float shiftInZAxis = 0.01f;
         System.Random rnd = new System.Random(123);
-        
+        int idx = 0;
         for (int k = 0; k < layer; k++) 
         {
             // if (CoordidateList.Count < (k + 1)) { CoordidateList.Add(new List<Vector3>()); }
@@ -42,6 +42,9 @@ public class CardMatrixProducer : MonoBehaviour
                             -shiftInZAxis * coordinate.z), Quaternion.identity, gameObject.transform);
                         CoordidateList.Add(coordinate);
                         cardObject.Coordidate = coordinate;
+                        cardObject.CardIndex = idx;
+                        idx++;
+                        cardObject.IsTouchable = false;
                     }
                     
                     // if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 70) 
@@ -56,7 +59,8 @@ public class CardMatrixProducer : MonoBehaviour
             }
         }
         CardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
-        cardRelation = IdentifyCardLevels(layer);
+        cardRelation = IdentifyCardRelation(layer);
+        SetCardTouchability();
     }
 
     private bool CreateFillingCondition(int layer, int col, int row) 
@@ -68,7 +72,7 @@ public class CardMatrixProducer : MonoBehaviour
         return false;
     }
 
-    private List<List<Vector3>> IdentifyCardLevels(int layer) 
+    private List<List<Vector3>> IdentifyCardRelation(int layer) 
     {
         int x = 0, y = 0, z = 0;
         int _x = 0, _y = 0, _z = 0;
@@ -101,6 +105,17 @@ public class CardMatrixProducer : MonoBehaviour
 
     private void SetCardTouchability() 
     {
-        
+        // List of CardIndex should always have the same length as List of CardRelation.
+        int idx = 0;
+
+        Card[] cards = FindObjectsOfType<Card>();
+        foreach (Card card in cards) {
+            if (CardIndex.Contains(card.CardIndex)) {
+                idx = CardIndex.IndexOf(card.CardIndex);
+                if (cardRelation[idx].Count == 0) {
+                    card.IsTouchable = true;
+                }
+            }
+        }
     }
 }

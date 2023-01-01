@@ -13,6 +13,7 @@ public enum CardType
 public class Card : MonoBehaviour
 {
     [SerializeField] CardType cardType;
+    int cardIndex;
     CardSpot[] cardSpots;
     bool isInBox = false;
     bool isTouchable = false;
@@ -172,7 +173,7 @@ public class Card : MonoBehaviour
         set {
             isTouchable = value;
             GetComponent<BoxCollider2D>().enabled = value;
-            float alpha = 0.5f;
+            float alpha = 0.7f;
             if (value) { alpha = 1; }
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
@@ -206,5 +207,10 @@ public class Card : MonoBehaviour
     public Vector3 Coordidate {
         get { return coordidate; }
         set { coordidate = value; }
+    }
+
+    public int CardIndex {
+        get { return cardIndex; }
+        set { cardIndex = value; }
     }
 }
