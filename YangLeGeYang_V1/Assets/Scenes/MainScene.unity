@@ -1585,7 +1585,7 @@ MonoBehaviour:
   - {fileID: 651144536811130986, guid: a0a9c27ebc006aa419e1c13255858c73, type: 3}
   - {fileID: 651144536811130986, guid: d201dd8ba1c0ef84282febd59ed63e66, type: 3}
   - {fileID: 651144536811130986, guid: 78c0fc94936f28a45990f8a0c68d3514, type: 3}
-  layer: 2
+  layer: 4
 --- !u!114 &1920294161 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1646683134473596601, guid: edbd94eabe1733d479cab31bcb5b8401, type: 3}

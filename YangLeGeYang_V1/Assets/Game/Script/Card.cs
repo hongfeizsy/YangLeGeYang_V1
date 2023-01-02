@@ -7,7 +7,7 @@ using System.Linq;
 
 public enum CardType
 {
-    Null, Carrot, Meat
+    Null, Carrot, Meat, Apple, Bee
 }
 
 public class Card : MonoBehaviour

@@ -22,7 +22,7 @@ public class CardMatrixProducer : MonoBehaviour
         cardHeight = CardPrefabs[0].GetComponent<BoxCollider2D>().size[1];
         float cardScalingFactor = CardPrefabs[0].gameObject.transform.localScale[0];
 
-        row = 2;
+        row = 7;
         column = 5;
         float shiftInZAxis = 0.01f;
         System.Random rnd = new System.Random(123);
@@ -34,27 +34,31 @@ public class CardMatrixProducer : MonoBehaviour
             {
                 for (int i = 0; i < column; i++) 
                 {
-                    if (k % 2 == j % 2 && k % 2 == i % 2) 
+                    // if (k % 2 == j % 2 && k % 2 == i % 2) 
+                    // {
+                    //     coordinate = new Vector3((int)(i - column / 2), (int)(j - row / 2), (int)k);
+                    //     var cardObject = Instantiate(CardPrefabs[k],
+                    //         new Vector3(coordinate.x * (cardWidth / 2) * cardScalingFactor, coordinate.y * (cardHeight / 2) * cardScalingFactor,
+                    //         -shiftInZAxis * coordinate.z), Quaternion.identity, gameObject.transform);
+                    //     CoordidateList.Add(coordinate);
+                    //     cardObject.Coordidate = coordinate;
+                    //     cardObject.CardIndex = idx;
+                    //     idx++;
+                    //     cardObject.IsTouchable = false;
+                    // }
+                    
+                    if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 100) 
                     {
                         coordinate = new Vector3((int)(i - column / 2), (int)(j - row / 2), (int)k);
-                        var cardObject = Instantiate(CardPrefabs[k],
-                            new Vector3(coordinate.x * (cardWidth / 2) * cardScalingFactor, coordinate.y * (cardHeight / 2) * cardScalingFactor,
-                            -shiftInZAxis * coordinate.z), Quaternion.identity, gameObject.transform);
-                        CoordidateList.Add(coordinate);
-                        cardObject.Coordidate = coordinate;
-                        cardObject.CardIndex = idx;
-                        idx++;
-                        cardObject.IsTouchable = false;
+                        var cardObject = Instantiate(CardPrefabs[k], 
+                            new Vector3(coordinate.x * (cardWidth / 2) * cardScalingFactor, coordinate.y * (cardHeight / 2) * cardScalingFactor, 
+                                - shiftInZAxis * coordinate.z), Quaternion.identity, gameObject.transform);
+                            CoordidateList.Add(coordinate);
+                            cardObject.Coordidate = coordinate;
+                            cardObject.CardIndex = idx;
+                            idx++;
+                            cardObject.IsTouchable = false;
                     }
-                    
-                    // if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 70) 
-                    // {
-                        // var cardObject = Instantiate(CardPrefabs[k], 
-                        //     new Vector3(((float)i - column / 2) * (cardWidth / 2) * cardScalingFactor, ((float)j - row / 2) * (cardHeight / 2) * cardScalingFactor, 
-                        //         - shiftInZAxis * k), Quaternion.identity, gameObject.transform);
-                    //     coordinate = new Vector3(i, j, k);
-                    //     cardObject.GetComponent<Card>().Coordidate = coordinate;
-                    // }
                 }
             }
         }
@@ -103,6 +107,20 @@ public class CardMatrixProducer : MonoBehaviour
         return cardRelation;
     }
 
+    public void RemoveItemsFromLists(int cardIdx, Vector3 cardCoordinate)
+    {
+        int idx = cardIndex.IndexOf(cardIdx);
+        cardIndex.RemoveAt(idx);
+        cardRelation.RemoveAt(idx);
+        foreach (List<Vector3> coordinateList in cardRelation)
+        {
+            if (coordinateList.Contains(cardCoordinate))
+            {
+                coordinateList.Remove(cardCoordinate);
+            }
+        }
+    }
+
     public void SetCardTouchability() 
     {
         // List of CardIndex should always have the same length as List of CardRelation.
@@ -120,19 +138,6 @@ public class CardMatrixProducer : MonoBehaviour
                 else {
                     card.IsTouchable = false;
                 }
-            }
-        }
-    }
-
-    public void RemoveItemsFromLists(int cardIdx, Vector3 cardCoordinate) 
-    {
-        int idx = cardIndex.IndexOf(cardIdx);
-        cardIndex.RemoveAt(idx);
-        cardRelation.RemoveAt(idx);
-        foreach (var coordinateList in cardRelation)
-        {
-            if (coordinateList.Contains(cardCoordinate)) {
-                coordinateList.Remove(cardCoordinate);
             }
         }
     }
