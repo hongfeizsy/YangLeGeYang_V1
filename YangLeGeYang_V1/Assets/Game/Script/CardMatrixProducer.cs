@@ -11,7 +11,7 @@ public class CardMatrixProducer : MonoBehaviour
     int row, column;
     bool[,,] occupiedIndicator;
     float cardWidth, cardHeight;
-    List<int> CardIndex = new List<int>();
+    List<int> cardIndex = new List<int>();
     List<Vector3> CoordidateList = new List<Vector3>();
     List<List<Vector3>> cardRelation = new List<List<Vector3>>();
 
@@ -58,7 +58,7 @@ public class CardMatrixProducer : MonoBehaviour
                 }
             }
         }
-        CardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
+        cardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
         cardRelation = IdentifyCardRelation(layer);
         SetCardTouchability();
     }
@@ -103,18 +103,36 @@ public class CardMatrixProducer : MonoBehaviour
         return cardRelation;
     }
 
-    private void SetCardTouchability() 
+    public void SetCardTouchability() 
     {
         // List of CardIndex should always have the same length as List of CardRelation.
         int idx = 0;
 
         Card[] cards = FindObjectsOfType<Card>();
-        foreach (Card card in cards) {
-            if (CardIndex.Contains(card.CardIndex)) {
-                idx = CardIndex.IndexOf(card.CardIndex);
+        foreach (Card card in cards) 
+        {
+            if (cardIndex.Contains(card.CardIndex)) 
+            {
+                idx = cardIndex.IndexOf(card.CardIndex);
                 if (cardRelation[idx].Count == 0) {
                     card.IsTouchable = true;
                 }
+                else {
+                    card.IsTouchable = false;
+                }
+            }
+        }
+    }
+
+    public void RemoveItemsFromLists(int cardIdx, Vector3 cardCoordinate) 
+    {
+        int idx = cardIndex.IndexOf(cardIdx);
+        cardIndex.RemoveAt(idx);
+        cardRelation.RemoveAt(idx);
+        foreach (var coordinateList in cardRelation)
+        {
+            if (coordinateList.Contains(cardCoordinate)) {
+                coordinateList.Remove(cardCoordinate);
             }
         }
     }

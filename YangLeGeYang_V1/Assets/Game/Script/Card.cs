@@ -30,10 +30,14 @@ public class Card : MonoBehaviour
     private void OnMouseDown()
     {
         if (isInBox) { return; }     // Can't be isTouchable, as the renderer can't be blur.
+
         isInBox = true;
         int spotNumberToMove = FindSpotNumber();
         transform.parent = null;
         // spawner.EnableCardInQueue();
+        CardMatrixProducer producer = FindObjectOfType<CardMatrixProducer>();
+        producer.RemoveItemsFromLists(cardIndex, coordidate);
+        producer.SetCardTouchability();
 
         if (IsThreeTiles(spotNumberToMove)) 
         {
