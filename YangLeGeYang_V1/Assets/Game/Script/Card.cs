@@ -189,7 +189,9 @@ public class Card : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTimeToKill);
         KillThreeTiles(spotNumber);
+        print("haha1.");
         yield return new WaitForSeconds(waitTimeToMoveLeft);
+        print("haha2.");
         MoveCardsToLeft(spotNumber);
         yield return null;
         // while (true) 
@@ -203,7 +205,7 @@ public class Card : MonoBehaviour
 
     private void KillThreeTiles(int spotNumber)
     {
-        print("Kill three tiles.");
+        // print("Kill three tiles.");
         foreach (CardSpot cardSpot in cardSpots)
         {
             if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber <= spotNumber))
