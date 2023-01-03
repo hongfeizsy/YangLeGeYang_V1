@@ -29,7 +29,7 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (isInBox) { return; }     // Can't be isTouchable, as the renderer can't be blur.
+        if (isInBox) {return; }     // Can't be isTouchable, as the renderer can't be blur.
 
         isInBox = true;
         int spotNumberToMove = FindSpotNumber();
@@ -39,13 +39,18 @@ public class Card : MonoBehaviour
         producer.RemoveItemsFromLists(cardIndex, coordidate);
         producer.SetCardTouchability();
 
-        if (IsThreeTiles(spotNumberToMove)) 
+        if (IsThreeTiles(spotNumberToMove))
         {
-            float waitTime = 1f;
+            float waitTimeToKill = 1f;
+            float waitTimeToMoveLeft = 1.1f;
             MoveToSpot(spotNumberToMove);
-            StartCoroutine(WaitAndKillThreeTiles(waitTime, spotNumberToMove));
+            StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, waitTimeToMoveLeft, spotNumberToMove));
+            // StartCoroutine(Seq(waitTimeToKill, waitTimeToMoveLeft, spotNumberToMove));
+            // StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumberToMove));
+            // StartCoroutine(WaitAndMoveCardsToLeft(waitTimeToMoveLeft, spotNumberToMove));
         }
         else { MoveToSpot(spotNumberToMove); }
+        
     }
 
     private int FindSpotNumber() 
@@ -138,7 +143,7 @@ public class Card : MonoBehaviour
         {
             if (spotNumber == cardSpot.SpotNumber)
             {
-                transform.DOMove(cardSpot.transform.position, 1);
+                transform.DOMove(cardSpot.transform.position, 0.5f);
                 cardSpot.CardTypeInSpot = cardType;
                 cardSpot.SpotOccupied = true;
                 cardSpot.CardInSpot = this;
@@ -162,16 +167,6 @@ public class Card : MonoBehaviour
         return false;
     }
 
-    private void KillThreeTiles(int spotNumber) 
-    {
-        foreach (CardSpot cardSpot in cardSpots) {
-            if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber <= spotNumber)) {
-                cardSpot.DestroyCardInSpot();
-                cardSpot.SpotOccupied = false;
-            }
-        }
-    }
-
     public bool IsTouchable {
         get { return isTouchable; }
         set {
@@ -184,26 +179,60 @@ public class Card : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitAndKillThreeTiles(float waitTime, int spotNumber) 
+    // private IEnumerator Seq(float waitTimeToKill, float waitTimeToMoveLeft, int spotNumber) 
+    // {
+    //     yield return StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumber));
+    //     yield return StartCoroutine(WaitAndMoveCardsToLeft(waitTimeToMoveLeft, spotNumber));
+    // }
+
+    private IEnumerator WaitAndKillThreeTiles(float waitTimeToKill, float waitTimeToMoveLeft, int spotNumber) 
     {
-        while (true) 
+        yield return new WaitForSeconds(waitTimeToKill);
+        KillThreeTiles(spotNumber);
+        yield return new WaitForSeconds(waitTimeToMoveLeft);
+        MoveCardsToLeft(spotNumber);
+        yield return null;
+        // while (true) 
+        // {
+        //     yield return new WaitForSeconds(waitTimeToKill);
+        //     KillThreeTiles(spotNumber);
+        //     yield return new WaitForSeconds(0.1f);
+        //     MoveCardsToLeft(spotNumber);
+        // }
+    }
+
+    private void KillThreeTiles(int spotNumber)
+    {
+        print("Kill three tiles.");
+        foreach (CardSpot cardSpot in cardSpots)
         {
-            yield return new WaitForSeconds(waitTime);
-            KillThreeTiles(spotNumber);
-            MoveCardsToLeft(spotNumber);
+            if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber <= spotNumber))
+            {
+                cardSpot.DestroyCardInSpot();
+                cardSpot.SpotOccupied = false;
+            }
         }
     }
 
+    // private IEnumerator WaitAndMoveCardsToLeft(float waiTimeToMove, int spotNumber)
+    // {
+    //     yield return new WaitForSeconds(waiTimeToMove);
+    //     MoveCardsToLeft(spotNumber);
+    // }
+
     private void MoveCardsToLeft(int spotNumber) 
     {
-        int[] spotNumberArray = Enumerable.Range(spotNumber + 1, spotNumber + 4).ToArray();
+        print("Move cards to left.");
+        // Array below shold be large enough to guarentee all cards in spots will be moved to left.
+        int[] spotNumberArray = Enumerable.Range(spotNumber + 1, spotNumber + 5).ToArray();  
         foreach (CardSpot spot in cardSpots) 
         {
             if (spotNumberArray.Contains(spot.SpotNumber) && spot.SpotOccupied) {
-                spot.CardInSpot.MoveToSpot(spot.SpotNumber - 3);
+                Card cardTmp = spot.CardInSpot;
                 spot.SpotOccupied = false;
                 spot.CardInSpot = null;
                 spot.CardTypeInSpot = CardType.Null;
+                cardTmp.MoveToSpot(spot.SpotNumber - 3);
             }
         }
     }
