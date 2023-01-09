@@ -17,8 +17,6 @@ public class CardMatrixProducer : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(CoroutineA());
-
         Vector3 coordinate = new Vector3();
         cardWidth = CardPrefabs[0].GetComponent<BoxCollider2D>().size[0];
         cardHeight = CardPrefabs[0].GetComponent<BoxCollider2D>().size[1];
@@ -68,18 +66,6 @@ public class CardMatrixProducer : MonoBehaviour
         cardRelation = IdentifyCardRelation(layer);
         SetCardTouchability();
     }
-
-    IEnumerator CoroutineA() {
-        Debug.Log("Program starts: " + Time.time);
-
-        yield return new WaitForSeconds(1.0f);
-        Debug.Log("coroutineA() started: " + Time.time);
-
-        yield return new WaitForSeconds(2.0f);
-        Debug.Log("coroutineA() finished " + Time.time);
-    }
-
-
 
     private bool CreateFillingCondition(int layer, int col, int row) 
     {

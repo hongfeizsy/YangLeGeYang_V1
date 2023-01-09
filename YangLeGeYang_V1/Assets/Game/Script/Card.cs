@@ -41,10 +41,9 @@ public class Card : MonoBehaviour
 
         if (IsThreeTiles(spotNumberToMove))
         {
-            float waitTimeToKill = 1f;
-            float waitTimeToMoveLeft = 1.1f;
+            float waitTimeToKill = 0.5f;
             MoveToSpot(spotNumberToMove);
-            StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, waitTimeToMoveLeft, spotNumberToMove));
+            StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumberToMove));
             // StartCoroutine(Seq(waitTimeToKill, waitTimeToMoveLeft, spotNumberToMove));
             // StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumberToMove));
             // StartCoroutine(WaitAndMoveCardsToLeft(waitTimeToMoveLeft, spotNumberToMove));
@@ -137,7 +136,7 @@ public class Card : MonoBehaviour
         }
     }
 
-    private void MoveToSpot(int spotNumber)
+    public void MoveToSpot(int spotNumber)
     {
         foreach (CardSpot cardSpot in cardSpots)
         {
@@ -179,21 +178,16 @@ public class Card : MonoBehaviour
         }
     }
 
-    // private IEnumerator Seq(float waitTimeToKill, float waitTimeToMoveLeft, int spotNumber) 
-    // {
-    //     yield return StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumber));
-    //     yield return StartCoroutine(WaitAndMoveCardsToLeft(waitTimeToMoveLeft, spotNumber));
-    // }
-
-    private IEnumerator WaitAndKillThreeTiles(float waitTimeToKill, float waitTimeToMoveLeft, int spotNumber) 
+    private IEnumerator WaitAndKillThreeTiles(float waitTimeToKill, int spotNumber) 
     {
         yield return new WaitForSeconds(waitTimeToKill);
         KillThreeTiles(spotNumber);
-        print("haha1.");
-        yield return new WaitForSeconds(waitTimeToMoveLeft);
-        print("haha2.");
-        MoveCardsToLeft(spotNumber);
-        yield return null;
+        FindObjectOfType<CardBox>().ShouldMoveCardsToLeft = true;
+        // print("haha1.");
+        // yield return new WaitForSeconds(waitTimeToMoveLeft);
+        // print("haha2.");
+        // MoveCardsToLeft(spotNumber);
+        // yield return null;
         // while (true) 
         // {
         //     yield return new WaitForSeconds(waitTimeToKill);
@@ -205,7 +199,6 @@ public class Card : MonoBehaviour
 
     private void KillThreeTiles(int spotNumber)
     {
-        // print("Kill three tiles.");
         foreach (CardSpot cardSpot in cardSpots)
         {
             if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber <= spotNumber))
@@ -215,12 +208,6 @@ public class Card : MonoBehaviour
             }
         }
     }
-
-    // private IEnumerator WaitAndMoveCardsToLeft(float waiTimeToMove, int spotNumber)
-    // {
-    //     yield return new WaitForSeconds(waiTimeToMove);
-    //     MoveCardsToLeft(spotNumber);
-    // }
 
     private void MoveCardsToLeft(int spotNumber) 
     {

@@ -757,6 +757,7 @@ GameObject:
   - component: {fileID: 1145120836}
   - component: {fileID: 1145120838}
   - component: {fileID: 1145120837}
+  - component: {fileID: 1145120839}
   m_Layer: 5
   m_Name: CardBox
   m_TagString: Untagged
@@ -828,6 +829,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145120835}
   m_CullTransparentMesh: 1
+--- !u!114 &1145120839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145120835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a529b2b72f09d43b408186a2b0a480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1169843386 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4936306732727787607, guid: edbd94eabe1733d479cab31bcb5b8401, type: 3}
