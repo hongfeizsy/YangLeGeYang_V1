@@ -41,12 +41,9 @@ public class Card : MonoBehaviour
 
         if (IsThreeTiles(spotNumberToMove))
         {
-            float waitTimeToKill = 0.5f;
+            float waitTimeToKill = 0.5f;  // The time used for a card from producer to card spot.
             MoveToSpot(spotNumberToMove);
             StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumberToMove));
-            // StartCoroutine(Seq(waitTimeToKill, waitTimeToMoveLeft, spotNumberToMove));
-            // StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumberToMove));
-            // StartCoroutine(WaitAndMoveCardsToLeft(waitTimeToMoveLeft, spotNumberToMove));
         }
         else { MoveToSpot(spotNumberToMove); }
         
@@ -192,6 +189,8 @@ public class Card : MonoBehaviour
             if ((cardSpot.SpotNumber > spotNumber - 3) && (cardSpot.SpotNumber <= spotNumber))
             {
                 cardSpot.DestroyCardInSpot();
+                cardSpot.CardTypeInSpot = CardType.Null;
+                cardSpot.CardInSpot = null;
                 cardSpot.SpotOccupied = false;
             }
         }
