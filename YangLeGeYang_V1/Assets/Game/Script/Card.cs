@@ -183,18 +183,6 @@ public class Card : MonoBehaviour
         yield return new WaitForSeconds(waitTimeToKill);
         KillThreeTiles(spotNumber);
         FindObjectOfType<CardBox>().ShouldMoveCardsToLeft = true;
-        // print("haha1.");
-        // yield return new WaitForSeconds(waitTimeToMoveLeft);
-        // print("haha2.");
-        // MoveCardsToLeft(spotNumber);
-        // yield return null;
-        // while (true) 
-        // {
-        //     yield return new WaitForSeconds(waitTimeToKill);
-        //     KillThreeTiles(spotNumber);
-        //     yield return new WaitForSeconds(0.1f);
-        //     MoveCardsToLeft(spotNumber);
-        // }
     }
 
     private void KillThreeTiles(int spotNumber)
@@ -205,23 +193,6 @@ public class Card : MonoBehaviour
             {
                 cardSpot.DestroyCardInSpot();
                 cardSpot.SpotOccupied = false;
-            }
-        }
-    }
-
-    private void MoveCardsToLeft(int spotNumber) 
-    {
-        print("Move cards to left.");
-        // Array below shold be large enough to guarentee all cards in spots will be moved to left.
-        int[] spotNumberArray = Enumerable.Range(spotNumber + 1, spotNumber + 5).ToArray();  
-        foreach (CardSpot spot in cardSpots) 
-        {
-            if (spotNumberArray.Contains(spot.SpotNumber) && spot.SpotOccupied) {
-                Card cardTmp = spot.CardInSpot;
-                spot.SpotOccupied = false;
-                spot.CardInSpot = null;
-                spot.CardTypeInSpot = CardType.Null;
-                cardTmp.MoveToSpot(spot.SpotNumber - 3);
             }
         }
     }
