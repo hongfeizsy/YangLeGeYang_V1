@@ -29,24 +29,10 @@ public class CardMatrixProducer : MonoBehaviour
         int idx = 0;
         for (int k = 0; k < layer; k++) 
         {
-            // if (CoordidateList.Count < (k + 1)) { CoordidateList.Add(new List<Vector3>()); }
             for (int j = 0; j < row; j++) 
             {
                 for (int i = 0; i < column; i++) 
                 {
-                    // if (k % 2 == j % 2 && k % 2 == i % 2) 
-                    // {
-                    //     coordinate = new Vector3((int)(i - column / 2), (int)(j - row / 2), (int)k);
-                    //     var cardObject = Instantiate(CardPrefabs[k],
-                    //         new Vector3(coordinate.x * (cardWidth / 2) * cardScalingFactor, coordinate.y * (cardHeight / 2) * cardScalingFactor,
-                    //         -shiftInZAxis * coordinate.z), Quaternion.identity, gameObject.transform);
-                    //     CoordidateList.Add(coordinate);
-                    //     cardObject.Coordidate = coordinate;
-                    //     cardObject.CardIndex = idx;
-                    //     idx++;
-                    //     cardObject.IsTouchable = false;
-                    // }
-                    
                     if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 100) 
                     {
                         coordinate = new Vector3((int)(i - column / 2), (int)(j - row / 2), (int)k);
@@ -65,6 +51,26 @@ public class CardMatrixProducer : MonoBehaviour
         cardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
         cardRelation = IdentifyCardRelation(layer);
         SetCardTouchability();
+
+        QuickTest();
+    }
+
+    private void QuickTest()
+    {
+        int numberOfType = CardPrefabs.Count();
+        List<int> numberOfPairs = new List<int>();    // 3N cards for each type.
+        List<int> cardArrangement = new List<int>();
+        System.Random rnd = new System.Random(100);
+        for (int i = 0; i < numberOfType; i++)
+        {
+            numberOfPairs.Add(rnd.Next(5, 8));
+            cardArrangement.AddRange(Enumerable.Repeat(i, 3 * numberOfPairs[i]).ToList());
+        }
+        
+        print("Total number of cards: " + cardArrangement.Count);
+        print(string.Format("Here is the list: ({0})", string.Join(", ", cardArrangement)));
+        List<int> randCardArrangement = cardArrangement.OrderBy(x => rnd.Next()).ToList();
+        print(string.Format("and the random list: ({0})", string.Join(", ", randCardArrangement)));
     }
 
     private bool CreateFillingCondition(int layer, int col, int row) 
