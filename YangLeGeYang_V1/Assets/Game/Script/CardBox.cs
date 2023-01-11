@@ -54,11 +54,8 @@ public class CardBox : MonoBehaviour
             int maxOccupiedSpotNumber = occupiedSpotNumbers.Max();
             if (occupiedSpotNumbers.Count < (maxOccupiedSpotNumber + 1))
             {
-                print("Move.");
                 List<int> refIntList = Enumerable.Range(0, maxOccupiedSpotNumber + 1).ToList();
-                print("Start point to move left: " + (refIntList.Where(x => !occupiedSpotNumbers.Contains(x)).ToList().Max() + 1));
                 int startSpotNumber = refIntList.Where(x => !occupiedSpotNumbers.Contains(x)).ToList().Max() + 1;
-                print("How many cards to move left: " + (occupiedSpotNumbers.Max() - startSpotNumber + 1));
                 List<int> spotToMoveLeft = Enumerable.Range(startSpotNumber, (occupiedSpotNumbers.Max() - startSpotNumber + 1)).ToList();
 
                 foreach (int spotNumber in spotToMoveLeft)
@@ -75,7 +72,6 @@ public class CardBox : MonoBehaviour
                     }
                 }
             }
-            else { print("Stay."); }
         }
     }
 }
