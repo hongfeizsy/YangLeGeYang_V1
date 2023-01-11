@@ -8,7 +8,6 @@ public class CardBox : MonoBehaviour
     CardSpot[] cardSpots;
     bool shouldMoveCardsToLeft;   // Should the remaining cards in the box move left?
 
-    // Start is called before the first frame update
     void Start()
     {
         cardSpots = FindObjectsOfType<CardSpot>();
@@ -32,16 +31,6 @@ public class CardBox : MonoBehaviour
     {
         shouldMoveCardsToLeft = false;
         yield return new WaitForSeconds(0.5f);    // Should be kept for particle effect?
-        // foreach (CardSpot spot in cardSpots)
-        // {
-        //     if (spot.SpotNumber > 2 & spot.SpotOccupied) 
-        //     {
-        //         spot.CardInSpot.MoveToSpot(spot.SpotNumber - 3);
-        //         spot.CardTypeInSpot = CardType.Null;
-        //         spot.CardInSpot = null;
-        //         spot.SpotOccupied = false;
-        //     }
-        // }
 
         List<int> occupiedSpotNumbers = new List<int>();
         List<int> emptySpotNumbers = new List<int>();
@@ -62,18 +51,29 @@ public class CardBox : MonoBehaviour
         emptySpotNumbers.Sort();
         if (occupiedSpotNumbers.Count > 0) 
         {
-            int minOccupiedSpotNumber = occupiedSpotNumbers.Min();
-            int minEmptySpotNumber = emptySpotNumbers.Min();
             int maxOccupiedSpotNumber = occupiedSpotNumbers.Max();
-            // print("max empty: " + minEmptySpotNumber);
-            // print("max occupied: " + minOccupiedSpotNumber);
-            if (minOccupiedSpotNumber < minEmptySpotNumber)
+            if (occupiedSpotNumbers.Count < (maxOccupiedSpotNumber + 1))
             {
                 print("Move.");
                 List<int> refIntList = Enumerable.Range(0, maxOccupiedSpotNumber + 1).ToList();
                 print("Start point to move left: " + (refIntList.Where(x => !occupiedSpotNumbers.Contains(x)).ToList().Max() + 1));
-                // List<int> spotNumbersMovingLeft = Enumerable.Range(minEmptySpotNumber + 1, minOccupiedSpotNumber - minEmptySpotNumber).ToList();
-                // print(spotNumbersMovingLeft.Count);
+                int startSpotNumber = refIntList.Where(x => !occupiedSpotNumbers.Contains(x)).ToList().Max() + 1;
+                print("How many cards to move left: " + (occupiedSpotNumbers.Max() - startSpotNumber + 1));
+                List<int> spotToMoveLeft = Enumerable.Range(startSpotNumber, (occupiedSpotNumbers.Max() - startSpotNumber + 1)).ToList();
+
+                foreach (int spotNumber in spotToMoveLeft)
+                {
+                    foreach (CardSpot spot in cardSpots)
+                    {
+                        if (spot.SpotNumber == spotNumber)
+                        {
+                            spot.CardInSpot.MoveToSpot(spotNumber - 3);
+                            spot.CardTypeInSpot = CardType.Null;
+                            spot.CardInSpot = null;
+                            spot.SpotOccupied = false;
+                        }
+                    }
+                }
             }
             else { print("Stay."); }
         }
