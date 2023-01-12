@@ -14,6 +14,7 @@ public class CardMatrixProducer : MonoBehaviour
     List<int> cardIndex = new List<int>();
     List<Vector3> CoordidateList = new List<Vector3>();
     List<List<Vector3>> cardRelation = new List<List<Vector3>>();
+    List<int> randCardArrangement = new List<int>();
 
     void Start()
     {
@@ -26,36 +27,39 @@ public class CardMatrixProducer : MonoBehaviour
         column = 5;
         float shiftInZAxis = 0.01f;
         System.Random rnd = new System.Random(123);
+        ProduceRandCardArrangement();
         int idx = 0;
+        int cardTypeCount = 0;
+        int cardTypeIndex = 0;
         for (int k = 0; k < layer; k++) 
         {
             for (int j = 0; j < row; j++) 
             {
                 for (int i = 0; i < column; i++) 
                 {
-                    if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 100) 
+                    if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 85) 
                     {
                         coordinate = new Vector3((int)(i - column / 2), (int)(j - row / 2), (int)k);
-                        var cardObject = Instantiate(CardPrefabs[k], 
+                        cardTypeIndex = randCardArrangement[cardTypeCount];
+                        var cardObject = Instantiate(CardPrefabs[cardTypeIndex], 
                             new Vector3(coordinate.x * (cardWidth / 2) * cardScalingFactor, coordinate.y * (cardHeight / 2) * cardScalingFactor, 
                                 - shiftInZAxis * coordinate.z), Quaternion.identity, gameObject.transform);
-                            CoordidateList.Add(coordinate);
-                            cardObject.Coordidate = coordinate;
-                            cardObject.CardIndex = idx;
-                            idx++;
-                            cardObject.IsTouchable = false;
+                        CoordidateList.Add(coordinate);
+                        cardObject.Coordidate = coordinate;
+                        cardObject.CardIndex = idx;
+                        idx++;
+                        cardObject.IsTouchable = false;
+                        cardTypeCount++;
                     }
                 }
             }
         }
         cardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
         cardRelation = IdentifyCardRelation(layer);
-        SetCardTouchability();
-
-        QuickTest();
+        SetCardTouchability();        
     }
 
-    private void QuickTest()
+    private void ProduceRandCardArrangement()
     {
         int numberOfType = CardPrefabs.Count();
         List<int> numberOfPairs = new List<int>();    // 3N cards for each type.
@@ -67,10 +71,10 @@ public class CardMatrixProducer : MonoBehaviour
             cardArrangement.AddRange(Enumerable.Repeat(i, 3 * numberOfPairs[i]).ToList());
         }
         
-        print("Total number of cards: " + cardArrangement.Count);
-        print(string.Format("Here is the list: ({0})", string.Join(", ", cardArrangement)));
-        List<int> randCardArrangement = cardArrangement.OrderBy(x => rnd.Next()).ToList();
-        print(string.Format("and the random list: ({0})", string.Join(", ", randCardArrangement)));
+        // print("Total number of cards: " + cardArrangement.Count);
+        // print(string.Format("Here is the list: ({0})", string.Join(", ", cardArrangement)));
+        randCardArrangement = cardArrangement.OrderBy(x => rnd.Next()).ToList();
+        // print(string.Format("and the random list: ({0})", string.Join(", ", randCardArrangement)));
     }
 
     private bool CreateFillingCondition(int layer, int col, int row) 
