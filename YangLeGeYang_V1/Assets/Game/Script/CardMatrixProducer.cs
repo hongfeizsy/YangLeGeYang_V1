@@ -4,10 +4,11 @@ using UnityEngine;
 using System;
 using System.Linq;
 
+
 public class CardMatrixProducer : MonoBehaviour
 {
     [SerializeField] Card[] CardPrefabs;
-    [SerializeField] int layer;
+    int maxlayer;         // It is only the upboundary, and will never be reached.
     int row, column;
     bool[,,] occupiedIndicator;
     float cardWidth, cardHeight;
@@ -22,22 +23,24 @@ public class CardMatrixProducer : MonoBehaviour
         cardWidth = CardPrefabs[0].GetComponent<BoxCollider2D>().size[0];
         cardHeight = CardPrefabs[0].GetComponent<BoxCollider2D>().size[1];
         float cardScalingFactor = CardPrefabs[0].gameObject.transform.localScale[0];
-
-        row = 7;
-        column = 5;
+        
+        maxlayer = 100;
+        row = 5;
+        column = 3;
         float shiftInZAxis = 0.01f;
         System.Random rnd = new System.Random(123);
         ProduceRandCardArrangement();
         int idx = 0;
         int cardTypeCount = 0;
         int cardTypeIndex = 0;
-        for (int k = 0; k < layer; k++) 
+        int myLayer = 0;
+        for (int k = 0; k < maxlayer; k++) 
         {
             for (int j = 0; j < row; j++) 
             {
                 for (int i = 0; i < column; i++) 
                 {
-                    if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 85) 
+                    if (CreateFillingCondition(k, j, i) && rnd.Next(100) <= 70) 
                     {
                         coordinate = new Vector3((int)(i - column / 2), (int)(j - row / 2), (int)k);
                         cardTypeIndex = randCardArrangement[cardTypeCount];
@@ -50,13 +53,21 @@ public class CardMatrixProducer : MonoBehaviour
                         idx++;
                         cardObject.IsTouchable = false;
                         cardTypeCount++;
+                        if (cardTypeCount >= randCardArrangement.Count) { goto EndStart; }
                     }
                 }
             }
+            myLayer++;
         }
-        cardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
-        cardRelation = IdentifyCardRelation(layer);
-        SetCardTouchability();        
+
+        EndStart: 
+        {
+            cardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
+            cardRelation = IdentifyCardRelation(maxlayer);
+            SetCardTouchability();
+            print("How many layers finally? " + (myLayer + 1));
+            print("How many cards in total? " + randCardArrangement.Count);
+        };
     }
 
     private void ProduceRandCardArrangement()
@@ -67,14 +78,11 @@ public class CardMatrixProducer : MonoBehaviour
         System.Random rnd = new System.Random(100);
         for (int i = 0; i < numberOfType; i++)
         {
-            numberOfPairs.Add(rnd.Next(5, 8));
+            numberOfPairs.Add(rnd.Next(3, 5));
             cardArrangement.AddRange(Enumerable.Repeat(i, 3 * numberOfPairs[i]).ToList());
         }
         
-        // print("Total number of cards: " + cardArrangement.Count);
-        // print(string.Format("Here is the list: ({0})", string.Join(", ", cardArrangement)));
         randCardArrangement = cardArrangement.OrderBy(x => rnd.Next()).ToList();
-        // print(string.Format("and the random list: ({0})", string.Join(", ", randCardArrangement)));
     }
 
     private bool CreateFillingCondition(int layer, int col, int row) 
