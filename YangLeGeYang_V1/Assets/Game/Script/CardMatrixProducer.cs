@@ -8,7 +8,7 @@ using System.Linq;
 public class CardMatrixProducer : MonoBehaviour
 {
     [SerializeField] Card[] CardPrefabs;
-    int maxlayer;         // It is only the upboundary, and will never be reached.
+    int maxlayer;         // It is only the up-boundary, and will never be reached.
     int row, column;
     bool[,,] occupiedIndicator;
     float cardWidth, cardHeight;
@@ -65,8 +65,8 @@ public class CardMatrixProducer : MonoBehaviour
             cardIndex = Enumerable.Range(0, CoordidateList.Count).ToList<int>();
             cardRelation = IdentifyCardRelation(maxlayer);
             SetCardTouchability();
-            print("How many layers finally? " + (myLayer + 1));
-            print("How many cards in total? " + randCardArrangement.Count);
+            // print("How many layers finally? " + (myLayer + 1));
+            // print("How many cards in total? " + randCardArrangement.Count);
         };
     }
 
@@ -82,7 +82,8 @@ public class CardMatrixProducer : MonoBehaviour
             cardArrangement.AddRange(Enumerable.Repeat(i, 3 * numberOfPairs[i]).ToList());
         }
         
-        randCardArrangement = cardArrangement.OrderBy(x => rnd.Next()).ToList();
+        randCardArrangement = cardArrangement.OrderBy(x => rnd.Next()).ToList();    // Shuffle the cards.
+        // print(string.Format("The random card list: ({0})", string.Join(", ", randCardArrangement)));
     }
 
     private bool CreateFillingCondition(int layer, int col, int row) 
