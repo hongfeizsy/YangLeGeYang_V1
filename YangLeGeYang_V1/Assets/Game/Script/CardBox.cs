@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 public class CardBox : MonoBehaviour
 {
     CardSpot[] cardSpots;
     bool shouldMoveCardsToLeft;   // Should the remaining cards in the box move left?
+    float timeElapsed = 0f;
+    bool gameContinue = true;
 
     void Start()
     {
@@ -19,6 +22,14 @@ public class CardBox : MonoBehaviour
         if (shouldMoveCardsToLeft) {
             StartCoroutine(MoveCardsToLeft());
         }
+
+        if (CheckOccupancyStatus())
+        {
+            timeElapsed += Time.deltaTime;
+        }
+        else { timeElapsed = 0f; }
+
+        if (timeElapsed > 0.5f) { gameContinue = false; }
     }
 
     public bool ShouldMoveCardsToLeft
@@ -73,5 +84,17 @@ public class CardBox : MonoBehaviour
                 }
             }
         }
+    }
+
+    private bool CheckOccupancyStatus()
+    {
+        int occupancyCount = 0;
+        foreach (CardSpot spot in cardSpots)
+        {
+            if (spot.SpotOccupied) { occupancyCount++; }
+        }
+
+        if (occupancyCount == 7) { return true; }
+        return false;
     }
 }

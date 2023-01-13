@@ -41,7 +41,7 @@ public class Card : MonoBehaviour
 
         if (IsThreeTiles(spotNumberToMove))
         {
-            float waitTimeToKill = 0.5f;  // The time used for a card from producer to card spot.
+            float waitTimeToKill = 0.3f;  // The time used for a card from producer to card spot.
             MoveToSpot(spotNumberToMove);
             StartCoroutine(WaitAndKillThreeTiles(waitTimeToKill, spotNumberToMove));
         }
@@ -139,7 +139,7 @@ public class Card : MonoBehaviour
         {
             if (spotNumber == cardSpot.SpotNumber)
             {
-                transform.DOMove(cardSpot.transform.position, 0.5f);
+                transform.DOMove(cardSpot.transform.position, 0.3f);
                 cardSpot.CardTypeInSpot = cardType;
                 cardSpot.SpotOccupied = true;
                 cardSpot.CardInSpot = this;

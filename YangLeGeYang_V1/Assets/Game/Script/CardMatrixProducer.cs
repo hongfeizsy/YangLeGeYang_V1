@@ -78,7 +78,7 @@ public class CardMatrixProducer : MonoBehaviour
         System.Random rnd = new System.Random(100);
         for (int i = 0; i < numberOfType; i++)
         {
-            numberOfPairs.Add(rnd.Next(3, 5));
+            numberOfPairs.Add(rnd.Next(2, 4));
             cardArrangement.AddRange(Enumerable.Repeat(i, 3 * numberOfPairs[i]).ToList());
         }
         
