@@ -30,7 +30,11 @@ public class CardBox : MonoBehaviour
         }
         else { timeElapsed = 0f; }
 
-        if (timeElapsed > 0.5f) { gameContinue = false; }
+        if (timeElapsed > 0.5f) 
+        { 
+            gameContinue = false; 
+            loseMessage.SetActive(true);
+        }
     }
 
     public bool ShouldMoveCardsToLeft
@@ -97,5 +101,10 @@ public class CardBox : MonoBehaviour
 
         if (occupancyCount == 7) { return true; }
         return false;
+    }
+
+    public bool GameContinue 
+    {
+        get { return gameContinue; }
     }
 }

@@ -20,16 +20,19 @@ public class Card : MonoBehaviour
     CardSpawner spawner;
     IEnumerator coroutine;
     Vector3 coordidate;
+    CardBox cardBox;
 
     private void Start() 
     {
         cardSpots = FindObjectsOfType<CardSpot>();
         spawner = transform.parent.GetComponent<CardSpawner>();
+        cardBox = FindObjectOfType<CardBox>();
     }
 
     private void OnMouseDown()
     {
-        if (isInBox) {return; }     // Can't be isTouchable, as the renderer can't be blur.
+        if (!cardBox.GameContinue) { return; }
+        if (isInBox) { return; }     // Can't be isTouchable, as the renderer can't be blur.
 
         isInBox = true;
         int spotNumberToMove = FindSpotNumber();
