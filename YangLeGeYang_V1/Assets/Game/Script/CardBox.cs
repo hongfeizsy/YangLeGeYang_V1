@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CardBox : MonoBehaviour
 {
+    [SerializeField] GameObject loseMessage;
     CardSpot[] cardSpots;
     bool shouldMoveCardsToLeft;   // Should the remaining cards in the box move left?
     float timeElapsed = 0f;
