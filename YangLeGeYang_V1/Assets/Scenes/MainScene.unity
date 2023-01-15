@@ -1982,6 +1982,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level lose canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7242121950790854156, guid: 4ddb91b0b3ba47749bb98cf1a9a6ed50, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7242121950790854256, guid: 4ddb91b0b3ba47749bb98cf1a9a6ed50, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
