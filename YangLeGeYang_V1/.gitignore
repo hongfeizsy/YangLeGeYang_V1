@@ -14,6 +14,7 @@
 /Assets/Game/Reference/
 /Assets/FPSFont/
 /Assets/TextMesh Pro/
+/Assets/2D Cute Wild Animal Pack V.1/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
